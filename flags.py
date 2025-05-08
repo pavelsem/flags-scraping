@@ -16,7 +16,7 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 def main():
     """Main method"""
     # Download the page
-    response = requests.get(URL)
+    response = requests.get(URL, timeout=1)
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "html.parser")
 
@@ -58,7 +58,7 @@ def process_wiki_table(table):
 
                 # Download image
                 try:
-                    img_data = requests.get(img_url).content
+                    img_data = requests.get(img_url, timeout=1).content
                     with open(filepath, "wb") as f:
                         f.write(img_data)
                     print(f"Saved: {filename}")
