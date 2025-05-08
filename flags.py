@@ -1,8 +1,10 @@
+"""Module providing a function to web scrape Czech wikipedia page with flags."""
+
 import os
 import csv
+from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin
 
 # Constants
 URL = "https://cs.wikipedia.org/wiki/Seznam_vlajek_st%C3%A1t%C5%AF_sv%C4%9Bta"
