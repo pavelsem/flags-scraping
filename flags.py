@@ -13,8 +13,8 @@ OUTPUT_DIR = "flags"
 CSV_FILENAME = "flags.csv"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-""" Main method"""
 def main():
+    """Main method"""
     # Download the page
     response = requests.get(URL)
     response.raise_for_status()
@@ -23,7 +23,6 @@ def main():
     # Go through all relevant tables
     tables = soup.select("table.wikitable")
     print(f"Found {len(tables)} wikitable(s).")
-    
     flag_entries = process_wiki_table(tables[0])
 
     # Save CSV mapping
@@ -35,8 +34,8 @@ def main():
 
     print(f"\nCSV mapping saved to: {csv_path}")
 
-""" Reads wikitable and returns list of flags associated country """
 def process_wiki_table(table):
+    """Reads wikitable and returns list of flags associated country."""
     flag_entries = []
     for row in table.select("tr"):
         cells = row.find_all("td")
