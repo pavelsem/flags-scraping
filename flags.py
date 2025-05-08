@@ -1,4 +1,4 @@
-"""Module providing a function to web scrape Czech wikipedia page with flags."""
+"""Module providing a functionality to web scrape Czech wikipedia page with flags."""
 
 import os
 import csv
@@ -52,7 +52,7 @@ for row in table.select("tr"):
                     f.write(img_data)
                 print(f"Saved: {filename}")
                 flag_entries.append((state_name, filename))
-            except Exception as e:
+            except IOError as e:
                 print(f"Failed to download {img_url}: {e}")
 
 # Save CSV mapping
