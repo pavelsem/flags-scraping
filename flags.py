@@ -13,20 +13,31 @@ OUTPUT_DIR = "flags"
 CSV_FILENAME = "flags.csv"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
+""" Main method"""
 def main():
     # Download the page
     response = requests.get(URL)
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "html.parser")
 
-    # Prepare list of (state, filename) entries
-    flag_entries = []
-
     # Go through all relevant tables
     tables = soup.select("table.wikitable")
     print(f"Found {len(tables)} wikitable(s).")
-    table = tables[0]
+    
+    flag_entries = process_wiki_table(tables[0])
 
+    # Save CSV mapping
+    csv_path = os.path.join(OUTPUT_DIR, CSV_FILENAME)
+    with open(csv_path, "w", newline="", encoding="utf-8") as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(["State", "Filename"])
+        writer.writerows(flag_entries)
+
+    print(f"\nCSV mapping saved to: {csv_path}")
+
+""" Reads wikitable and returns list of flags associated country """
+def process_wiki_table(table):
+    flag_entries = []
     for row in table.select("tr"):
         cells = row.find_all("td")
         if len(cells) >= 3:
@@ -55,15 +66,8 @@ def main():
                     flag_entries.append((state_name, filename))
                 except IOError as e:
                     print(f"Failed to download {img_url}: {e}")
+    return flag_entries
 
-    # Save CSV mapping
-    csv_path = os.path.join(OUTPUT_DIR, CSV_FILENAME)
-    with open(csv_path, "w", newline="", encoding="utf-8") as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerow(["State", "Filename"])
-        writer.writerows(flag_entries)
-
-    print(f"\nCSV mapping saved to: {csv_path}")
 
 if __name__ == "__main__":
     main()
