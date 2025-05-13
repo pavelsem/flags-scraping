@@ -5,6 +5,7 @@ import csv
 from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
+from unidecode import unidecode
 
 # Constants
 URL = "https://cs.wikipedia.org/wiki/Seznam_vlajek_st%C3%A1t%C5%AF_sv%C4%9Bta"
@@ -53,7 +54,7 @@ def process_wiki_table(table):
                 # Clean filename
                 extension = os.path.splitext(img_url)[-1]
                 safe_name = state_name.replace(" ", "_").replace("/", "_")
-                filename = f"{safe_name}{extension}"
+                filename = unidecode(f"{safe_name}{extension}".lower())
                 filepath = os.path.join(OUTPUT_DIR, filename)
 
                 # Download image
