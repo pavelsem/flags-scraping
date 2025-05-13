@@ -53,7 +53,7 @@ def process_wiki_table(table):
 
                 # Clean filename
                 extension = os.path.splitext(img_url)[-1]
-                safe_name = state_name.replace(" ", "_").replace("/", "_")
+                safe_name = state_name.replace(" ", "_").replace("/", "_").replace("-", "_")
                 filename = unidecode(f"{safe_name}{extension}".lower())
                 filepath = os.path.join(OUTPUT_DIR, filename)
 
